@@ -10,10 +10,20 @@ public class Duke {
         System.out.println(line);
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
-        System.out.println("\n" + line);
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println("\n" + line);
+        System.out.println(line + "\n");
 
+        String command = args[0];
+        int i = 0;
+
+        while(!command.equalsIgnoreCase("Bye")) {
+            System.out.println(line);
+            System.out.println(command);
+            System.out.println(line + "\n");
+            command = args[++i];
+        }
+        System.out.println(line);
+        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println(line + "\n");
 
     }
 }
