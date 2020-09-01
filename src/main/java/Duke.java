@@ -32,27 +32,67 @@ public class Duke {
 
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
-        String[] tasks = new String[100];
-        int numberOfTasks = 0;
 
-        while(!command.equalsIgnoreCase("Bye")) {
-            if(!command.equalsIgnoreCase("list")){
+        /*while(!command.equalsIgnoreCase("Bye")){
+            if(command.equalsIgnoreCase("list")){
                 printLine();
-                System.out.println("added: " + command);
-                printLine();
-                System.out.println();
-                tasks[numberOfTasks++] = command;
-            }
-            else {
-                printLine();
-                for(int i=0; i<numberOfTasks; i++){
-                    System.out.println(i+1 + ". " + tasks[i]);
+                System.out.println("Here are the tasks in your list:");
+                for(int i=0; i<Task.getNumbers(); i++){
+                    System.out.println(i+1 + ".");
                 }
                 printLine();
                 System.out.println();
             }
+            else if(command.equalsIgnoreCase("Done")){
+
+            }
+            else{
+                Task t = new Task(command);
+                printLine();
+                System.out.println("added: " + command);
+                printLine();
+                System.out.println();
+            }
+
+        }*/
+
+
+        String[] tasks = new String[100];
+        Boolean[] isDone = new Boolean[100];
+        int numberOfTasks = 0;
+
+        while(!command.equalsIgnoreCase("Bye")) {
+            if(command.equalsIgnoreCase("list")){
+                printLine();
+                System.out.println("Here are the tasks in your list:");
+                for(int i=0; i<numberOfTasks; i++){
+                    String isTure = isDone[i] ? "[\u2713] " : "[\u2718] ";
+                    System.out.println(i+1 + isTure + tasks[i]);
+                }
+                printLine();
+                System.out.println();
+            }
+            else if(command.substring(0,4).equalsIgnoreCase("Done")){
+                String id = command.substring(5);
+                int idInt = Integer.parseInt(id)-1;
+                isDone[idInt] = true;
+                printLine();
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("[\u2713] " + tasks[idInt]);
+                printLine();
+                System.out.println();
+            }
+            else {
+                printLine();
+                System.out.println("added: " + command);
+                printLine();
+                System.out.println();
+                tasks[numberOfTasks] = command;
+                isDone[numberOfTasks++] = false;
+            }
             command = sc.nextLine();
         }
+
         printExit();
 
     }
