@@ -32,12 +32,25 @@ public class Duke {
 
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
+        String[] tasks = new String[100];
+        int numberOfTasks = 0;
 
         while(!command.equalsIgnoreCase("Bye")) {
-            printLine();
-            System.out.println(command);
-            printLine();
-            System.out.println();
+            if(!command.equalsIgnoreCase("list")){
+                printLine();
+                System.out.println("added: " + command);
+                printLine();
+                System.out.println();
+                tasks[numberOfTasks++] = command;
+            }
+            else {
+                printLine();
+                for(int i=0; i<numberOfTasks; i++){
+                    System.out.println(i+1 + ". " + tasks[i]);
+                }
+                printLine();
+                System.out.println();
+            }
             command = sc.nextLine();
         }
         printExit();
