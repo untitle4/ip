@@ -9,10 +9,10 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         String line = "__________________________________";
         System.out.println("Hello from\n" + logo);
-        System.out.println(line);
+        printLine();
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
-        System.out.println(line + "\n");
+        printLine();
     }
 
     public static void printLine(){
