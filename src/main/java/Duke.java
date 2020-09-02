@@ -59,6 +59,7 @@ public class Duke {
 
         String[] tasks = new String[100];
         Boolean[] isDone = new Boolean[100];
+        String[] typeOfTasks = new String[100];
         int numberOfTasks = 0;
 
         while(!command.equalsIgnoreCase("Bye")) {
@@ -67,10 +68,47 @@ public class Duke {
                 System.out.println("Here are the tasks in your list:");
                 for(int i=0; i<numberOfTasks; i++){
                     String isTure = isDone[i] ? "[\u2713] " : "[\u2718] ";
-                    System.out.println(i+1 + isTure + tasks[i]);
+                    System.out.println(i+1 + "." + typeOfTasks[i] + isTure + tasks[i]);
                 }
                 printLine();
                 System.out.println();
+            }
+            else if(command.startsWith("todo")){
+                String toDo = command.substring(5);
+                tasks[numberOfTasks] = toDo;
+                typeOfTasks[numberOfTasks] = "[T]";
+                isDone[numberOfTasks++] = false;
+                printLine();
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  [T]" + "[\u2718] " + toDo);
+                System.out.println("Now you have " + numberOfTasks + " tasks in the list.");
+                printLine();
+            }
+            else if(command.startsWith("deadline")){
+                String ddl = command.substring(9, command.indexOf("/"));
+                String timeForDeadline = command.substring(command.indexOf("/")+4);
+                tasks[numberOfTasks] = ddl + " (by: " + timeForDeadline + ")";
+                typeOfTasks[numberOfTasks] = "[D]";
+                isDone[numberOfTasks++] = false;
+                printLine();
+                System.out.println("Got it. I've added this task:");
+                System.out.print("  [T]" + "[\u2718] " + ddl);
+                System.out.println(" (by: " + timeForDeadline + ")");
+                System.out.println("Now you have " + numberOfTasks + " tasks in the list.");
+                printLine();
+            }
+            else if(command.startsWith("event")){
+                String event = command.substring(6, command.indexOf("/"));
+                String timeOfEvent = command.substring(command.indexOf("/")+4);
+                tasks[numberOfTasks] = event + (" (at: " + timeOfEvent + ")");
+                typeOfTasks[numberOfTasks] = "[E]";
+                isDone[numberOfTasks++] = false;
+                printLine();
+                System.out.println("Got it. I've added this task:");
+                System.out.print("  [T]" + "[\u2718] " + event);
+                System.out.println(" (at: " + timeOfEvent + ")");
+                System.out.println("Now you have " + numberOfTasks + " tasks in the list.");
+                printLine();
             }
             else if(command.substring(0,4).equalsIgnoreCase("Done")){
                 String id = command.substring(5);
@@ -88,6 +126,7 @@ public class Duke {
                 printLine();
                 System.out.println();
                 tasks[numberOfTasks] = command;
+                typeOfTasks[numberOfTasks] = "[W]";
                 isDone[numberOfTasks++] = false;
             }
             command = sc.nextLine();
