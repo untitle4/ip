@@ -87,6 +87,9 @@ public class Duke {
                 printTask(tasks[numberOfTasks], numberOfTasks+1);
                 numberOfTasks++;
             }
+            else{
+                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+            }
             command = sc.nextLine();
         }
 
