@@ -75,20 +75,43 @@ public class Duke {
             }
 
             else if(command.startsWith("event")){
-                tasks[numberOfTasks] = new Event(command.substring(6, command.indexOf("/")),
-                        command.substring(command.indexOf("/") + 4));
-                printTask(tasks[numberOfTasks], numberOfTasks+1);
-                numberOfTasks++;
+                String[] checkEvent = command.split(" ");
+                if(checkEvent.length < 2){
+                    printLine();
+                    System.out.println("☹ OOPS!!! The description of a event cannot be empty.");
+                    printLine();
+                }
+                else if(!command.contains("/")){
+                    printLine();
+                    System.out.println("☹ OOPS!!! There need to be a time for event.");
+                    printLine();
+                }
+                else{
+                    tasks[numberOfTasks] = new Event(command.substring(6, command.indexOf("/")),
+                            command.substring(command.indexOf("/") + 4));
+                    printTask(tasks[numberOfTasks], numberOfTasks+1);
+                    numberOfTasks++;
+                }
 
             }
 
             else if(command.startsWith("todo")){
-                tasks[numberOfTasks] = new Todo(command.substring(5));
-                printTask(tasks[numberOfTasks], numberOfTasks+1);
-                numberOfTasks++;
+                String[] checkTodo = command.split(" ");
+                if(checkTodo.length < 2){
+                    printLine();
+                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                    printLine();
+                }
+                else{
+                    tasks[numberOfTasks] = new Todo(command.substring(5));
+                    printTask(tasks[numberOfTasks], numberOfTasks+1);
+                    numberOfTasks++;
+                }
             }
             else{
+                printLine();
                 System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                printLine();
             }
             command = sc.nextLine();
         }
