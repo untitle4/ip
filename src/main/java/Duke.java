@@ -35,6 +35,56 @@ public class Duke {
         System.out.println();
     }
 
+    public static int addTask(Task[] tasks, String command, int numberOfTasks) throws DukeException{
+        if(command.equalsIgnoreCase("list")){
+            printLine();
+            System.out.println("Here are the tasks in your list:");
+            for(int i=0; i<numberOfTasks; i++){
+                System.out.println(i+1 + "." + tasks[i]);
+            }
+            printLine();
+        }
+
+        else if(command.startsWith("done")){
+            int index = Integer.parseInt(command.substring(5)) - 1;
+            if(index < numberOfTasks){
+                tasks[index].setDone();
+                printLine();
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("[\u2713] " + tasks[index].description);
+                printLine();
+            }
+        }
+
+        else if(command.startsWith("deadline")){
+            tasks[numberOfTasks] = new Deadline(command.substring(9, command.indexOf("/")),
+                    command.substring(command.indexOf("/") + 4));
+            printTask(tasks[numberOfTasks], numberOfTasks+1);
+            numberOfTasks++;
+        }
+
+        else if(command.startsWith("event")){
+
+            tasks[numberOfTasks] = new Event(command.substring(6, command.indexOf("/")),
+                    command.substring(command.indexOf("/") + 4));
+            printTask(tasks[numberOfTasks], numberOfTasks+1);
+            numberOfTasks++;
+
+        }
+
+        else if(command.startsWith("todo")){
+            tasks[numberOfTasks] = new Todo(command.substring(5));
+            printTask(tasks[numberOfTasks], numberOfTasks+1);
+            numberOfTasks++;
+        }
+
+        else{
+            throw new DukeException();
+        }
+
+        return numberOfTasks;
+    }
+
     public static void main(String[] args) {
         printGreeting();
 
@@ -46,73 +96,19 @@ public class Duke {
         int numberOfTasks = 0;
 
         while(!command.equalsIgnoreCase("Bye")){
-
-            if(command.equalsIgnoreCase("list")){
-                printLine();
-                System.out.println("Here are the tasks in your list:");
-                for(int i=0; i<numberOfTasks; i++){
-                    System.out.println(i+1 + "." + tasks[i]);
-                }
-                printLine();
-            }
-
-            else if(command.startsWith("done")){
-                int index = Integer.parseInt(command.substring(5)) - 1;
-                if(index < numberOfTasks){
-                    tasks[index].setDone();
-                    printLine();
-                    System.out.println("Nice! I've marked this task as done:");
-                    System.out.println("[\u2713] " + tasks[index].description);
-                    printLine();
-                }
-            }
-
-            else if(command.startsWith("deadline")){
-                tasks[numberOfTasks] = new Deadline(command.substring(9, command.indexOf("/")),
-                        command.substring(command.indexOf("/") + 4));
-                printTask(tasks[numberOfTasks], numberOfTasks+1);
-                numberOfTasks++;
-            }
-
-            else if(command.startsWith("event")){
-                String[] checkEvent = command.split(" ");
-                if(checkEvent.length < 2){
-                    printLine();
-                    System.out.println("☹ OOPS!!! The description of a event cannot be empty.");
-                    printLine();
-                }
-                else if(!command.contains("/")){
-                    printLine();
-                    System.out.println("☹ OOPS!!! There need to be a time for event.");
-                    printLine();
-                }
-                else{
-                    tasks[numberOfTasks] = new Event(command.substring(6, command.indexOf("/")),
-                            command.substring(command.indexOf("/") + 4));
-                    printTask(tasks[numberOfTasks], numberOfTasks+1);
-                    numberOfTasks++;
-                }
-
-            }
-
-            else if(command.startsWith("todo")){
-                String[] checkTodo = command.split(" ");
-                if(checkTodo.length < 2){
-                    printLine();
-                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
-                    printLine();
-                }
-                else{
-                    tasks[numberOfTasks] = new Todo(command.substring(5));
-                    printTask(tasks[numberOfTasks], numberOfTasks+1);
-                    numberOfTasks++;
-                }
-            }
-            else{
+            try{
+                numberOfTasks = addTask(tasks, command, numberOfTasks);
+            } catch(DukeException e){
                 printLine();
                 System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                 printLine();
+            } catch (StringIndexOutOfBoundsException e){
+                printLine();
+                System.out.println("☹ OOPS!!! The description of a " + command + " cannot be empty.");
+                printLine();
             }
+
+
             command = sc.nextLine();
         }
 
