@@ -107,7 +107,11 @@ public class Duke {
                 printLine();
                 System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                 printLine();
-            } catch (StringIndexOutOfBoundsException e){
+            } catch (StringIndexOutOfBoundsException e) {
+                printLine();
+                System.out.println("☹ OOPS!!! The description of a " + command + " cannot be empty.");
+                printLine();
+            } catch(NumberFormatException e){
                 printLine();
                 System.out.println("☹ OOPS!!! The description of a " + command + " cannot be empty.");
                 printLine();
