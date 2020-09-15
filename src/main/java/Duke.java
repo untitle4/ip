@@ -50,6 +50,25 @@ public class Duke {
             printLine();
         }
 
+        else if(command.startsWith("delete")){
+            int index = Integer.parseInt(command.substring(7)) - 1;
+            if(index < numberOfTasks){
+                printLine();
+                System.out.println("Noted. I've removed this task:");
+                System.out.println("  " + tasks[index]);
+                System.arraycopy(tasks, index + 1, tasks, index, numberOfTasks - index);
+                numberOfTasks--;
+                System.out.println("Now you have " + numberOfTasks + (numberOfTasks == 1 ? " task" : " tasks") + " in your list.");
+                printLine();
+
+            }
+            else {
+                printLine();
+                System.out.println("☹ OOPS!!! There is no such a task in your list.");
+                printLine();
+            }
+        }
+
         else if(command.startsWith("done")){
             int index = Integer.parseInt(command.substring(5)) - 1;
             if(index < numberOfTasks){
@@ -57,6 +76,11 @@ public class Duke {
                 printLine();
                 System.out.println("Nice! I've marked this task as done:");
                 System.out.println("[\u2713] " + tasks[index].description);
+                printLine();
+            }
+            else {
+                printLine();
+                System.out.println("☹ OOPS!!! There is no such a task in your list.");
                 printLine();
             }
         }
