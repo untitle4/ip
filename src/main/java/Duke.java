@@ -6,7 +6,7 @@ import task.Task;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileWriter;
 
@@ -17,7 +17,6 @@ public class Duke {
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
-        String line = "__________________________________";
         System.out.println("Hello from\n" + logo);
         printLine();
         System.out.println("Hello! I'm Duke");
@@ -30,10 +29,10 @@ public class Duke {
         System.out.println(line);
     }
 
-    public static void printTask(Task thisTask, int n){
+    public static void printTask(ArrayList<Task> tasks, int n){
         printLine();
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + thisTask);
+        System.out.println("Got it. I've added this task:  ");
+        System.out.println(tasks.get(n++));
         System.out.println("Now you have " + n + (n == 1 ? " task" : " tasks") + " in your list.");
         printLine();
     }
@@ -45,12 +44,12 @@ public class Duke {
         System.out.println();
     }
 
-    public static int addTask(Task[] tasks, String command, int numberOfTasks) throws DukeException{
+    public static int addTask(ArrayList<Task> tasks, String command, int numberOfTasks) throws DukeException{
         if(command.equalsIgnoreCase("list")){
             printLine();
             System.out.println("Here are the tasks in your list:");
             for(int i=0; i<numberOfTasks; i++){
-                System.out.println(i+1 + "." + tasks[i]);
+                System.out.println(i+1 + "." + tasks.get(i));
             }
             printLine();
         }
@@ -60,10 +59,9 @@ public class Duke {
             if(index < numberOfTasks){
                 printLine();
                 System.out.println("Noted. I've removed this task:");
-                System.out.println("  " + tasks[index]);
-                System.arraycopy(tasks, index + 1, tasks, index, numberOfTasks - index);
-                numberOfTasks--;
-                System.out.println("Now you have " + numberOfTasks + (numberOfTasks == 1 ? " task" : " tasks") + " in your list.");
+                System.out.println("  " + tasks.get(index));
+                tasks.remove(index);
+                System.out.println("Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in your list.");
                 printLine();
 
             }
@@ -77,10 +75,10 @@ public class Duke {
         else if(command.startsWith("done")){
             int index = Integer.parseInt(command.substring(5)) - 1;
             if(index < numberOfTasks){
-                tasks[index].setDone();
+                tasks.get(index).setDone();
                 printLine();
                 System.out.println("Nice! I've marked this task as done:");
-                System.out.println("[\u2713] " + tasks[index].description);
+                System.out.println("[\u2713] " + tasks.get(index).description);
                 printLine();
             }
             else {
@@ -91,38 +89,35 @@ public class Duke {
         }
 
         else if(command.startsWith("deadline")){
-            tasks[numberOfTasks] = new Deadline(command.substring(9, command.indexOf("/")),
-                    command.substring(command.indexOf("/") + 4));
-            printTask(tasks[numberOfTasks], numberOfTasks+1);
-            numberOfTasks++;
+            tasks.add(new Deadline(command.substring(9, command.indexOf("/")),
+                    command.substring(command.indexOf("/") + 4)));
+            printTask(tasks, numberOfTasks);
         }
 
         else if(command.startsWith("event")){
 
-            tasks[numberOfTasks] = new Event(command.substring(6, command.indexOf("/")),
-                    command.substring(command.indexOf("/") + 4));
-            printTask(tasks[numberOfTasks], numberOfTasks+1);
-            numberOfTasks++;
+            tasks.add(new Event(command.substring(6, command.indexOf("/")),
+                    command.substring(command.indexOf("/") + 4)));
+            printTask(tasks, numberOfTasks);
 
         }
 
         else if(command.startsWith("todo")){
-            tasks[numberOfTasks] = new Todo(command.substring(5));
-            printTask(tasks[numberOfTasks], numberOfTasks+1);
-            numberOfTasks++;
+            tasks.add(new Todo(command.substring(5)));
+            printTask(tasks, numberOfTasks);
         }
 
         else{
             throw new DukeException();
         }
 
-        return numberOfTasks;
+        return tasks.size();
     }
 
-    private static void writeToFile(String filePath, Task[] tasks, int number) throws IOException{
+    private static void writeToFile(String filePath, ArrayList<Task> tasks, int number) throws IOException{
         FileWriter fw = new FileWriter(filePath);
         for(int i=0; i<number; i++){
-            String thisTask = String.valueOf(tasks[i]);
+            String thisTask = String.valueOf(tasks.get(i));
             if(thisTask.indexOf("T") == 1){
                 fw.write("T |");
             }
@@ -135,7 +130,7 @@ public class Duke {
                 fw.write("E |");
             }
 
-            if(tasks[i].getStatus()){
+            if(tasks.get(i).getStatus()){
                 fw.write(" 1 | ");
             }
             else{
@@ -143,7 +138,7 @@ public class Duke {
             }
 
             if(thisTask.indexOf("T") == 1){
-                fw.write(tasks[i].description);
+                fw.write(tasks.get(i).description);
                 fw.write(System.lineSeparator());
             }
             else{
@@ -162,8 +157,10 @@ public class Duke {
         printGreeting();
 
         String fileDuke = "data/Duke.txt";
+        //String fileDuke = "Duke.txt";
 
-        Task[] tasks = new Task[100];
+        //Task[] tasks = new Task[100];
+        ArrayList<Task> tasks = new ArrayList<>(100);
         int numberOfTasks = 0;
 
         try{
@@ -172,21 +169,20 @@ public class Duke {
             while(s.hasNext()){
                 String thisTask = s.nextLine();
                 if(thisTask.startsWith("T")){
-                    tasks[numberOfTasks] = new Todo(thisTask.substring(8));
+                    tasks.add(new Todo(thisTask.substring(8)));
                 }
                 else if(thisTask.startsWith("D")){
-                    tasks[numberOfTasks] = new Deadline(thisTask.substring(8, thisTask.indexOf("/")),
-                            thisTask.substring(thisTask.indexOf("/") + 4));
+                    tasks.add(new Deadline(thisTask.substring(8, thisTask.indexOf("/")),
+                            thisTask.substring(thisTask.indexOf("/") + 4)));
                 }
                 else if(thisTask.startsWith("E")){
-                    tasks[numberOfTasks] = new Event(thisTask.substring(8, thisTask.indexOf("/")),
-                            thisTask.substring(thisTask.indexOf("/") + 4));
+                    tasks.add(new Event(thisTask.substring(8, thisTask.indexOf("/")),
+                                    thisTask.substring(thisTask.indexOf("/") + 4)));
                 }
-
+                numberOfTasks = tasks.size();
                 if(thisTask.charAt(4) == '1'){
-                    tasks[numberOfTasks].setDone();
+                    tasks.get(numberOfTasks - 1).setDone();
                 }
-                numberOfTasks++;
             }
         } catch (FileNotFoundException e){
             System.out.println("File not found");
@@ -208,7 +204,7 @@ public class Duke {
 
         while(!command.equalsIgnoreCase("Bye")){
             try{
-                numberOfTasks = addTask(tasks, command, numberOfTasks);
+                numberOfTasks = addTask(tasks, command, tasks.size());
             } catch(DukeException e){
                 printLine();
                 System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
