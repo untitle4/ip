@@ -54,6 +54,20 @@ public class Duke {
             printLine();
         }
 
+        else if(command.startsWith("find")){
+            String tasksToFind = command.substring(5);
+            printLine();
+            System.out.println("Here are the matching tasks in your list:");
+            for(int i=0, n=1; i<numberOfTasks; i++){
+                String thisTask = tasks.get(i).toString();
+                if(thisTask.contains(tasksToFind)){
+                    System.out.println(n + ". " + thisTask);
+                    n++;
+                }
+            }
+            printLine();
+        }
+
         else if(command.startsWith("delete")){
             int index = Integer.parseInt(command.substring(7)) - 1;
             if(index < numberOfTasks){
