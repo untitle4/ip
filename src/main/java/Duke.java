@@ -20,14 +20,20 @@ public class Duke {
         TaskList tasks = new TaskList();
         Parser parser = new Parser();
         ui.printGreeting();
+
+        //set up scanner
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
 
+        //read the list in the file
         storage.readFile(tasks.tasks,"data/Duke.txt");
 
         while(!command.equals("bye")){
+            //parse and add tasks
             parser.parse(command, tasks);
             command = sc.nextLine();
+
+            //update the list in the file
             storage.writeToFile("data/Duke.txt", tasks.tasks);
         }
 
