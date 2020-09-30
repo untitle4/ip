@@ -1,8 +1,3 @@
-import task.Deadline;
-import task.Event;
-import task.Todo;
-import task.Task;
-
 import Duke.Storage.Storage;
 import Duke.Ui.Ui;
 import Duke.TaskList.TaskList;
