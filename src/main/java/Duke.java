@@ -24,8 +24,10 @@ public class Duke {
         storage.readFile(tasks.tasks,"data/Duke.txt");
 
         while(!command.equals("bye")){
+
             //parse and add tasks
             parser.parse(command, tasks);
+
             command = sc.nextLine();
 
             //update the list in the file

@@ -68,19 +68,29 @@ public class TaskList {
     }
 
     public void delete(String command){
-        int index = Integer.parseInt(command.substring(7)) - 1;
-        if(index < tasks.size()){
-            printLine();
-            System.out.println("Noted. I've removed this task:");
-            System.out.println("  " + tasks.get(index));
-            tasks.remove(index);
-            System.out.println("Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in your list.");
-            printLine();
+        try{
+            int index = Integer.parseInt(command.substring(7)) - 1;
+            if(index < tasks.size()){
+                printLine();
+                System.out.println("Noted. I've removed this task:");
+                System.out.println("  " + tasks.get(index));
+                tasks.remove(index);
+                System.out.println("Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in your list.");
+                printLine();
 
-        }
-        else {
+            }
+            else {
+                printLine();
+                System.out.println("☹ OOPS!!! There is no such a task in your list.");
+                printLine();
+            }
+        }catch(NumberFormatException e){
             printLine();
-            System.out.println("☹ OOPS!!! There is no such a task in your list.");
+            System.out.println("☹ OOPS!!! The description of a \" + command + \" cannot be empty.");
+            printLine();
+        } catch(StringIndexOutOfBoundsException e){
+            printLine();
+            System.out.println("☹ OOPS!!! The description of a \" + command + \" cannot be empty.");
             printLine();
         }
     }
