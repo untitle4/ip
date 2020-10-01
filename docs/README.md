@@ -178,7 +178,7 @@ Duke automatically saves the schedule list in the document `"*\data\Duke.txt"`. 
 
 ## Command and summary
 Actions | Formats
-------- | -----------------
+---------- | -----------------
 List | `list`
 Todo | `todo TASK`
 Event | `event TASK /at TIME`
