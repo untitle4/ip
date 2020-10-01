@@ -7,6 +7,7 @@ import task.Todo;
 
 import java.util.ArrayList;
 
+// class tasklist to store all the tasks
 public class TaskList {
     public ArrayList<Task> tasks = new ArrayList<>(100);
     String line = "__________________________________";

@@ -3,6 +3,7 @@ package Duke.Parser;
 import Duke.TaskList.TaskList;
 import task.Task;
 
+// class Parser to parse the command and store the list
 public class Parser {
     public void parse(String command, TaskList tasks){
         // print list

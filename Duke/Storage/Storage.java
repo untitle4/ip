@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// class storage for the reading and writing of file
 public class Storage {
     public void readFile(ArrayList<Task> tasks, String fileDuke){
         try{
