@@ -21,7 +21,7 @@ public class Duke {
         String command = sc.nextLine();
 
         //read the list in the file
-        storage.readFile(tasks.tasks,"data/Duke.txt");
+        storage.readFile(tasks.tasks,"/Users/Acer/Desktop/duke.txt");
 
         while(!command.equals("bye")){
 
@@ -31,7 +31,7 @@ public class Duke {
             command = sc.nextLine();
 
             //update the list in the file
-            storage.writeToFile("data/Duke.txt", tasks.tasks);
+            storage.writeToFile("/Users/Acer/Desktop/duke.txt", tasks.tasks);
         }
 
         ui.printExit();

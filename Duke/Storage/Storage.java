@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 // class storage for the reading and writing of file
 public class Storage {
-    public void readFile(ArrayList<Task> tasks, String fileDuke){
+    public void readFile(ArrayList<Task> tasks, String fileDuke) throws IOException {
         try{
             File f = new File(fileDuke);
             Scanner s = new Scanner(f);
@@ -38,6 +38,8 @@ public class Storage {
             }
         } catch (FileNotFoundException e){
             System.out.println("File not found");
+            File file = new File(fileDuke);
+            file.createNewFile();
         }
     }
 
