@@ -43,7 +43,9 @@ public class Parser {
 
         // invalid command
         else{
+            System.out.println("__________________________________");
             System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+            System.out.println("__________________________________");
         }
     }
 
